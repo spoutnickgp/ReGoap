@@ -32,8 +32,7 @@ namespace ReGoap.Planner
             frontier.Clear();
             stateToNode.Clear();
             explored.Clear();
-            if (clearNodes)
-            {
+            if (clearNodes) {
                 ClearNodes();
                 createdNodes.Add(start);
             }
@@ -41,27 +40,20 @@ namespace ReGoap.Planner
             frontier.Enqueue(start, start.GetCost());
 
             var iterations = 0;
-            while ((frontier.Count > 0) && (iterations < maxIterations) && (frontier.Count + 1 < frontier.MaxSize))
-            {
+            while ((frontier.Count > 0) && (iterations < maxIterations) && (frontier.Count + 1 < frontier.MaxSize)) {
                 var node = frontier.Dequeue();
-                if (node.IsGoal(goal))
-                {
+                if (node.IsGoal(goal)) {
                     return node;
                 }
                 explored[node.GetState()] = node;
 
 
-                foreach (var child in node.Expand())
-                {
+                foreach (var child in node.Expand()) {
                     iterations++;
                     if (clearNodes)
-                    {
                         createdNodes.Add(child);
-                    }
                     if (earlyExit && child.IsGoal(goal))
-                    {
                         return child;
-                    }
                     var childCost = child.GetCost();
                     var state = child.GetState();
                     if (explored.ContainsKey(state))
